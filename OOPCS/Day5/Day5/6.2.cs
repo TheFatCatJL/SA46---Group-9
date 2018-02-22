@@ -63,7 +63,7 @@ namespace Day5
         public double CalculateTimeValue(int investyear, string investmenttype, string raritybenchmark, double capital)
         {
             double TempValue = 0;
-            TempValue = capital * RarityBenchmarker(InvestmentType, RarityBenchmark) * (DateTime.Now.Year - investyear) / (72/7);
+            TempValue = capital * RarityBenchmarker(InvestmentType, RarityBenchmark) * (1+(DateTime.Now.Year - investyear) / (72/7));
             return TempValue;
         }
 
@@ -124,7 +124,7 @@ namespace Day5
         public double CalculateTimeValue(int investyear, string investmenttype, string raritybenchmark, double capital)
         {
             double TempValue = 0;
-            TempValue = capital * RarityBenchmarker(InvestmentType, RarityBenchmark) * (DateTime.Now.Year - investyear) / (72 / 7);
+            TempValue = capital * RarityBenchmarker(InvestmentType, RarityBenchmark) * (1+(DateTime.Now.Year - investyear) / (72 / 7));
             return TempValue;
         }
 
@@ -185,7 +185,8 @@ namespace Day5
         public double CalculateTimeValue(int investyear, string investmenttype, string raritybenchmark, double capital)
         {
             double TempValue = 0;
-            TempValue = capital * RarityBenchmarker(InvestmentType, RarityBenchmark) * (DateTime.Now.Year - investyear) / (72 / 7);
+            TempValue = capital * RarityBenchmarker(InvestmentType, RarityBenchmark) * (1+(DateTime.Now.Year - investyear) / (72 / 7));
+            
             return TempValue;
         }
 
@@ -237,7 +238,7 @@ namespace Day5
             {
                 count++;
                 TempValue += investments.CalculateValue(investments);
-                Console.WriteLine("{0} {1} acquire in Year {2} is worth {3:c} now.",investments.GetRarity(),investments.GetInvestType(),investments.GetInvestYear(),investments.CalculateValue(investments));
+                Console.WriteLine("{0} {1} acquired in Year {2} for {3:c} is worth {4:c} now.",investments.GetRarity(),investments.GetInvestType(),investments.GetInvestYear(),investments.GetCapitalValue(),investments.CalculateValue(investments));
             }
             Console.WriteLine("Total Investment Value for {0} items is {1:c}.", count, TempValue);
         }
@@ -248,7 +249,8 @@ namespace Day5
             foreach (IInvestment investments in investmentlist)
             {
                 count++;
-                TempValue += investments.CalculateValue(investments) - investments.GetCapitalValue();
+                TempValue = TempValue + investments.CalculateValue(investments) - investments.GetCapitalValue();
+                Console.WriteLine("You have gained {4:c} for {0} {1} acquired in Year {2} for {3:c}.", investments.GetRarity(), investments.GetInvestType(), investments.GetInvestYear(), investments.GetCapitalValue(), investments.CalculateValue(investments) - investments.GetCapitalValue());
             }
             Console.WriteLine("Total Investment Value for {0} items is {1:c}.", count, TempValue);
 
@@ -256,6 +258,15 @@ namespace Day5
         public void AddInvestment(IInvestment investment)
         {
             InvestmentList.Add(investment);
+        }
+
+        public void ShowAllPortfolio(ArrayList investmentlist)
+        {
+            foreach(IInvestment investments in investmentlist)
+            {
+                investments.ShowInvestmentDetails(investments);
+                Console.WriteLine();
+            }
         }
     }
     class Program2
@@ -298,7 +309,9 @@ namespace Day5
             MyPortfolio.AddInvestment(A5);
             MyPortfolio.AddInvestment(A6);
             MyPortfolio.AddInvestment(A7);
-            MyPortfolio.TotalInvestmentValue(MyPortfolio.InvestmentList);
+            //MyPortfolio.TotalInvestmentValue(MyPortfolio.InvestmentList);
+            //MyPortfolio.TotalInvestmentProfit(MyPortfolio.InvestmentList);
+            MyPortfolio.ShowAllPortfolio(MyPortfolio.InvestmentList);
         }
     }
 }
