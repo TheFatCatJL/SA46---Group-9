@@ -1,15 +1,27 @@
 ﻿using System;
 using System.Collections;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Configuration;
 
 namespace ISSBank
 {
 
-
+    
     class Program
     {
+        
+
         static void Main(string[] args)
         {
-            Customer A = new Customer("Allan","1 Ocean Drive","X1122",new DateTime(1990,1,1));
+            SecurityConsole UserLoginScr = new SecurityConsole();
+            string constring2 = "Server =localhost;DATABASE = BankCustomers; Integrated Security=SSPI;";
+            SqlConnection cbDatabaseConnection = new SqlConnection(constring2);
+            UserLoginScr.ValidUserCheck(cbDatabaseConnection);
+            //UserLoginScr.CustomerAcc;
+
+
+            Customer A = new Customer("Allan", "1 Ocean Drive", "X1122", new DateTime(1990, 1, 1));
             BankAccount B = new SavingsAccount("001001001", 5000,0.01, A);
             BankAccount B2 = new CurrentAccount("001001002", 15000, 0.0025, A);
             BankAccount B3 = new OverdraftAccount("001001003", -50000, 0.0025, A);
@@ -34,7 +46,7 @@ namespace ISSBank
             C.AddAccount(B8);
             C.AddAccount(B9);
             //Deposit D = new Deposit();
-            //D.DepositInterface(B6);
+            //D.DepositScreen(B6);
             //C.PrintCustomers();
             //Withdrawal W = new Withdrawal();
             //W.WithdrawalInterface(B8);
@@ -44,15 +56,17 @@ namespace ISSBank
             //C.PrintCustomers();
             //B9.CreditInterest();
             //B6.CreditInterest();
-            ////C.PrintCustomers();
+            //C.PrintCustomers();
             //UserMainMenu UMM = new UserMainMenu(AR);
             //UMM.UserMainMenuScreen(A);
-            
+            //UserSubMenu USM = new UserSubMenu(AR);
+            //USM.UserSubMenuScreen(A, 0);
 
-            Customer CustA = new Customer();
-            Console.WriteLine(CustA.AddressCustomer);
-            string cus = CustA.NameCustomer;
-            Console.WriteLine(cus);
+
+            //Customer CustA = new Customer();
+            //Console.WriteLine(CustA.AddressCustomer);
+            //string cus = CustA.NameCustomer;
+            //Console.WriteLine(cus);
         }
     }
 }

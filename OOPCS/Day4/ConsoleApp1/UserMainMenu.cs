@@ -6,9 +6,14 @@ namespace ISSBank
 {
     class UserMainMenu
     {
-        ArrayList AccountList;
+        public ArrayList AccountList { get; set; }
         public UserMainMenu(ArrayList accountlist) { AccountList = accountlist; }
-        public int[] UserMainMenuScreen(Customer customerA)
+
+        //public void Menutrigger(ArrayList AccountList)
+        //{
+        //    UserMainMenuScreen();
+        //}
+        public int UserMainMenuScreen(Customer customerA)
         {
             string userinput = "";
             int userinputint = 1;
@@ -40,12 +45,38 @@ namespace ISSBank
                     userinput = Console.ReadKey(true).KeyChar.ToString();
                 } while (int.TryParse(userinput, out userinputint) == false);
             } while (userinputint <= 0 || userinputint > count);
-            return arrayIndex;
+            return arrayIndex[userinputint-1];
         }
+    }
 
-        //public UserSubMenuScreen(int[] arrayIndex)
-        //{
+    class UserSubMenu : UserMainMenu
+    {
+        
+        public UserSubMenu(ArrayList accountlist) : base(accountlist) { }
 
-        //}
+        public int UserSubMenuScreen(Customer CustomerA, int ArrayIndex)
+        {
+            BankAccount BA = (BankAccount)AccountList[ArrayIndex];
+            char Userinput = '5';
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("********************************************************************************");
+                Console.WriteLine("Welcome to ISS Bank. How can we serve you today, {0}", CustomerA.NameCustomer);
+                Console.WriteLine("********************************************************************************");
+                Console.WriteLine("Please choose your transaction for your {0} account.", BA.AccountTypeGet);
+                Console.WriteLine("********************************************************************************");
+                Console.WriteLine("1. Deposit");
+                Console.WriteLine("2. Withdrawal");
+                Console.WriteLine("3. Transfer");
+                Console.WriteLine("4. Account Details");
+                Console.WriteLine("5. Go back to choose another account.");
+                Console.Write("\nPress 1 to 5 >>> ");
+                Userinput = Console.ReadKey(true).KeyChar;
+                Console.WriteLine();
+            } while ((int)Userinput < 1 && (int)Userinput > 5);
+            return Userinput;            
+        }
     }
 }

@@ -6,14 +6,14 @@ namespace ISSBank
 {
     class BankAccount
     {
-        string AccountNumber;
+        int AccountNumber;
         double AccountValue;
         string AccountType;
         double AccountInterest;
         Customer AccountCustomer;
 
-        public BankAccount() : this("000-000-000", 0,0, new Customer()){ }
-        public BankAccount(string accountnumber, int accountvalue, double accountinterest, Customer accountcustomer)
+        public BankAccount() : this(-1, 0,0, new Customer()){ }
+        public BankAccount(int accountnumber, double accountvalue, double accountinterest, Customer accountcustomer)
         {
             AccountNumber = accountnumber;
             AccountValue = accountvalue;
@@ -22,7 +22,7 @@ namespace ISSBank
             AccountType = "Savings";
         }
 
-        public string AccountNumberGet { get { return AccountNumber; } }
+        public int AccountNumberGet { get { return AccountNumber; } }
         public double AccountValueGet { get { return AccountValue; } }
         public double AccountValueSet { set { AccountValue = value; } }
         public virtual string AccountTypeGet { get { return AccountType; } }
@@ -71,14 +71,14 @@ namespace ISSBank
     class SavingsAccount : BankAccount
     {
         double interest = 0.01;
-        public SavingsAccount(string accountnumber, int accountvalue, double accountinterest, Customer accountcustomer) : base(accountnumber, accountvalue, accountinterest, accountcustomer) { }
+        public SavingsAccount(int accountnumber, int accountvalue, double accountinterest, Customer accountcustomer) : base(accountnumber, accountvalue, accountinterest, accountcustomer) { }
         public override string AccountTypeGet { get { return "Savings"; } }
         public override double AccountInterestGet { get { return interest; } }
     }
     class CurrentAccount : BankAccount
     {
         double interest = 0.0025;
-        public CurrentAccount(string accountnumber, int accountvalue, double accountinterest, Customer accountcustomer) : base(accountnumber, accountvalue, accountinterest, accountcustomer) { }
+        public CurrentAccount(int accountnumber, int accountvalue, double accountinterest, Customer accountcustomer) : base(accountnumber, accountvalue, accountinterest, accountcustomer) { }
         public override string AccountTypeGet { get { return "Current"; } }
         public override double AccountInterestGet { get { return interest; } }
     }
@@ -86,7 +86,7 @@ namespace ISSBank
     {
         double interest = 0.0025;
         double interest2 = 0.06;
-        public OverdraftAccount(string accountnumber, int accountvalue, double accountinterest, Customer accountcustomer) : base(accountnumber, accountvalue, accountinterest, accountcustomer) { }
+        public OverdraftAccount(int accountnumber, int accountvalue, double accountinterest, Customer accountcustomer) : base(accountnumber, accountvalue, accountinterest, accountcustomer) { }
         public override string AccountTypeGet { get { return "Overdraft"; } }
         
         public override double AccountInterestGet

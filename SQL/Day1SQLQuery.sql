@@ -26,10 +26,10 @@ select OrderID, OrderDate from Orders where CustomerID = (select CustomerID from
 --Question 9
 select * from Products where ProductName like '%lager%'
 --Question 10
-select CustomerID, ContactName from Customers where CustomerID not in (select CustomerID from Orders)
+select CustomerID, ContactName from Customers where CustomerID not in (select CustomerID from Orders where ContactName is not null)
 --select Customers.CustomerID, ContactName from Customers Left Outer Join Orders on Customers.CustomerID = Orders.CustomerID where Customers.CustomerID not in (Select CustomerID from Orders)
 --Question 11
-select AVG(UnitPrice) as AveragePrice from Pro
+select AVG(UnitPrice) as AveragePrice from Products
 --Question 12
 select distinct City from Customers where City is not null
 --Question 13
@@ -76,7 +76,7 @@ select Count(EmployeeID) as [Total Number of Employees] from Employees
 --Question 21b
 select COUNT(Country) as [Total Number of Employees in USA] from Employees where Country = 'USA'
 --Question 22
-Select Orders.*
+Select *
 from Orders Inner Join Employees on Orders.EmployeeID = Employees.EmployeeID
 Inner Join Shippers on Orders.ShipVia = Shippers.ShipperID
 where Title = 'Sales Representative' AND CompanyName = 'United Package'
@@ -90,7 +90,8 @@ Select Top 5 ProductName, sum(UnitPrice*Quantity-ExtendedPrice) as [Total Discou
 --Questiom 25
 Select Customers.CompanyName
 from Customers Left Outer Join Suppliers on Customers.City = Suppliers.City
-where Suppliers.City is null
+where Suppliers.City is null AND Customers.City is not null
+
 --Question 26
 Select distinct Customers.City
 from Customers Join Suppliers on Customers.City = Suppliers.City
@@ -100,20 +101,17 @@ The mailing list would consist of all Suppliers and Customers collectively calle
 The details that need to be captured are the Business Associates' Names, Address and Phone.*/
 
 Select CompanyName as [Business Associate Name], Address, Phone from Suppliers UNION
-Select CompanyName as [Business Associate Name], Address, Phone from Customers
+Select CompanyName as [Business Associate Name], Address, Phone from Customers where Address is not null
 
 --Question 27b
 Select CompanyName as [Business Associate Name], Address, Phone from Suppliers UNION
-Select CompanyName as [Business Associate Name], Address, Phone from Customers UNION
+Select CompanyName as [Business Associate Name], Address, Phone from Customers where Address is not null UNION
 Select CompanyName as [Business Associate Name], 'No Address entry' as Address, Phone from Shippers
 
 --Question 28
-Select (FirstName+LastName) as [Manager's Name], OrderID from Employees, Orders 
-where Employees.EmployeeID = (select EmployeeID from Orders where OrderID = 10248) AND OrderID = 10248
-
-Select (FirstName+LastName) as [Manager's Name], OrderID from Employees
-Inner Join Orders on Employees.EmployeeID = Orders.EmployeeID
-where Employees.EmployeeID = (select EmployeeID from Orders where OrderID = 10248) AND OrderID = 10248 
+Select (B.FirstName+B.LastName) as [Manager's Name]
+from Employees as A INNER JOIN Employees As B ON B.EmployeeID = A.ReportsTo
+where A.EmployeeID = (SELECT EmployeeID from Orders where OrderID = 10248)
 
 --Question 29
 --List the product name and product id with unit price greater than average unit product price.

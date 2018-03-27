@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Text;
+using System.Data.SqlClient;
 
 namespace ISSBank
 {
@@ -18,8 +19,8 @@ namespace ISSBank
             NameCustomer = namecustomer;
             AddressCustomer = addresscustomer;
             IDCustomer = idcustomer;
-            AgeCustomer = DateTime.Now.Year - dateTime.Year;
-        }
+            CustomerAge = DateTime.Now.Year - dateTime.Year;
+        }    
         
     }
 }
